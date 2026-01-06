@@ -1,0 +1,1095 @@
+<!-- Modal para Nuevo/Editar Cliente -->
+<div id="modal-cliente" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modal-cliente-title">Nuevo Cliente</h2>
+            <button class="close" onclick="closeModal('modal-cliente')">&times;</button>
+        </div>
+        <form id="form-cliente" onsubmit="guardarCliente(event)">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>RIF/Cédula *</label>
+                    <input type="text" name="rif" id="cliente-rif" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nombre *</label>
+                        <input type="text" name="nombre" id="cliente-nombre" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Apellido</label>
+                        <input type="text" name="apellido" id="cliente-apellido">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="text" name="telefono" id="cliente-telefono">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" id="cliente-email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Dirección</label>
+                    <textarea name="direccion" id="cliente-direccion" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('modal-cliente')">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal para Nuevo/Editar Producto -->
+<div id="modal-producto" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modal-producto-title">Nuevo Producto</h2>
+            <button class="close" onclick="closeModal('modal-producto')">&times;</button>
+        </div>
+        <form id="form-producto" onsubmit="guardarProducto(event)">
+            <div class="modal-body" style="max-height: 80vh;">
+                <div class="form-group">
+                    <label>Código de Barras</label>
+                    <input type="text" name="codigo_barras" id="producto-codigo">
+                </div>
+                <div class="form-group">
+                    <label>Nombre del Producto *</label>
+                    <input type="text" name="nombre" id="producto-nombre" required>
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea name="descripcion" id="producto-descripcion" rows="3"></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Tipo de Producto</label>
+                        <select name="tipo_producto" id="producto-tipo">
+                            <option value="Otros">Otros</option>
+                            <option value="Ropa">Ropa</option>
+                            <option value="Zapatos">Zapatos</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría</label>
+                        <select name="categoria_id" id="producto-categoria">
+                            <option value="">Sin categoría</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Marca</label>
+                        <input type="text" name="marca" id="producto-marca">
+                    </div>
+                    <div class="form-group">
+                        <label>Color</label>
+                        <input type="text" name="color" id="producto-color">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Precio de Venta (USD) *</label>
+                        <input type="number" step="0.01" name="precio_venta_usd" id="producto-precio-venta-usd" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Precio de Compra (USD)</label>
+                        <input type="number" step="0.01" name="precio_compra_usd" id="producto-precio-compra-usd">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Stock Actual</label>
+                        <input type="number" step="0.01" name="stock_actual" id="producto-stock-actual" value="0">
+                    </div>
+                    <div class="form-group">
+                        <label>Stock Mínimo</label>
+                        <input type="number" step="0.01" name="stock_minimo" id="producto-stock-minimo" value="0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" name="vende_al_mayor" id="producto-vende-mayor" onchange="toggleVentaMayor()">
+                        Venta al mayor
+                    </label>
+                </div>
+                <div id="venta-mayor-fields" style="display: none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Unidades por Mayor</label>
+                            <input type="number" name="unidades_por_bulto" id="producto-unidades-bulto" value="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Unidad de Medida</label>
+                            <select name="unidad_medida" id="producto-unidad-medida">
+                                <option value="unidad">Unidad</option>
+                                <option value="docena">Docena</option>
+                                <option value="caja">Caja</option>
+                                <option value="paquete">Paquete</option>
+                                <option value="metro">Metro</option>
+                                <option value="kilogramo">Kilogramo</option>
+                                <option value="litro">Litro</option>
+                                <option value="pack">Pack</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('modal-producto')">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal para Nuevo/Editar Proveedor -->
+<div id="modal-proveedor" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modal-proveedor-title">Nuevo Proveedor</h2>
+            <button class="close" onclick="closeModal('modal-proveedor')">&times;</button>
+        </div>
+        <form id="form-proveedor" onsubmit="guardarProveedor(event)">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Nombre del Proveedor *</label>
+                    <input type="text" name="nombre" id="proveedor-nombre" required>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>RIF</label>
+                        <input type="text" name="rif" id="proveedor-rif">
+                    </div>
+                    <div class="form-group">
+                        <label>Contacto</label>
+                        <input type="text" name="contacto" id="proveedor-contacto">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Teléfono</label>
+                        <input type="text" name="telefono" id="proveedor-telefono">
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" name="email" id="proveedor-email">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Dirección</label>
+                    <textarea name="direccion" id="proveedor-direccion" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Notas</label>
+                    <textarea name="notas" id="proveedor-notas" rows="3"></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('modal-proveedor')">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal para Procesar Pago -->
+<div id="modal-pago" class="modal">
+    <div class="modal-content modal-pago-content">
+        <div class="modal-header">
+            <h2>Procesar Pago</h2>
+            <button class="close" onclick="closeModal('modal-pago')">&times;</button>
+        </div>
+        <div class="modal-body modal-pago-body">
+            <!-- Selector de moneda para efectivo -->
+            <div class="pago-moneda-selector">
+                <label>Moneda Efectivo:</label>
+                <select id="pago-moneda-efectivo" onchange="actualizarTotalesPago()">
+                    <option value="USD">USD</option>
+                    <option value="VES">VES</option>
+                </select>
+            </div>
+
+            <!-- Método: EFECTIVO -->
+            <div class="pago-metodo">
+                <div class="pago-metodo-header">
+                    <label>EFECTIVO</label>
+                    <button type="button" class="btn-total-pago" onclick="setTotalPago('efectivo')">TOTAL</button>
+                </div>
+                <input type="number" step="0.01" id="pago-efectivo" placeholder="0.00" oninput="actualizarTotalesPago()">
+            </div>
+
+            <!-- Método: TARJETA -->
+            <div class="pago-metodo">
+                <div class="pago-metodo-header">
+                    <label>TARJETA</label>
+                    <button type="button" class="btn-total-pago" onclick="setTotalPago('tarjeta')">TOTAL</button>
+                </div>
+                <input type="number" step="0.01" id="pago-tarjeta" placeholder="0.00" oninput="actualizarTotalesPago()">
+                <div class="pago-metodo-detalles">
+                    <select id="pago-tarjeta-tipo">
+                        <option value="Débito">Débito</option>
+                        <option value="Crédito">Crédito</option>
+                        <option value="American Express">American Express</option>
+                        <option value="Otro">Otro</option>
+                    </select>
+                    <input type="text" id="pago-tarjeta-ref" placeholder="Referencia">
+                </div>
+            </div>
+
+            <!-- Método: TRANSFERENCIA -->
+            <div class="pago-metodo">
+                <div class="pago-metodo-header">
+                    <label>TRANSFERENCIA</label>
+                    <button type="button" class="btn-total-pago" onclick="setTotalPago('transferencia')">TOTAL</button>
+                </div>
+                <input type="number" step="0.01" id="pago-transferencia" placeholder="0.00" oninput="actualizarTotalesPago()">
+                <div class="pago-metodo-detalles">
+                    <select id="pago-transferencia-banco">
+                        <option value="Banco de Venezuela">Banco de Venezuela</option>
+                        <option value="Bancaribe">Bancaribe</option>
+                        <option value="Banco Mercantil">Banco Mercantil</option>
+                        <option value="Banco Provincial">Banco Provincial</option>
+                        <option value="Banesco">Banesco</option>
+                        <option value="Banco Occidental de Descuento (BOD)">Banco Occidental de Descuento (BOD)</option>
+                        <option value="Banco Fondo Común">Banco Fondo Común</option>
+                        <option value="Banco Nacional de Crédito (BNC)">Banco Nacional de Crédito (BNC)</option>
+                        <option value="Banco Exterior">Banco Exterior</option>
+                        <option value="100% Banco">100% Banco</option>
+                        <option value="Banco Plaza">Banco Plaza</option>
+                        <option value="Banco Venezolano de Crédito (BVC)">Banco Venezolano de Crédito (BVC)</option>
+                        <option value="Banco Caroní">Banco Caroní</option>
+                        <option value="Bangente">Bangente</option>
+                        <option value="Banco Activo">Banco Activo</option>
+                        <option value="Banco Bicentenario">Banco Bicentenario</option>
+                        <option value="Banco del Tesoro">Banco del Tesoro</option>
+                        <option value="Banfoandes">Banfoandes</option>
+                        <option value="Banco Internacional de Desarrollo">Banco Internacional de Desarrollo</option>
+                        <option value="Mi Banco">Mi Banco</option>
+                    </select>
+                    <input type="text" id="pago-transferencia-ref" placeholder="Referencia">
+                </div>
+            </div>
+
+            <!-- Método: PAGO MÓVIL -->
+            <div class="pago-metodo">
+                <div class="pago-metodo-header">
+                    <label>PAGO MÓVIL</label>
+                    <button type="button" class="btn-total-pago" onclick="setTotalPago('pago_movil')">TOTAL</button>
+                </div>
+                <input type="number" step="0.01" id="pago-pago-movil" placeholder="0.00" oninput="actualizarTotalesPago()">
+                <div class="pago-metodo-detalles">
+                    <input type="text" id="pago-pm-telefono" placeholder="Teléfono">
+                    <input type="text" id="pago-pm-cedula" placeholder="Cédula">
+                    <select id="pago-pm-banco">
+                        <option value="Banco de Venezuela">Banco de Venezuela</option>
+                        <option value="Bancaribe">Bancaribe</option>
+                        <option value="Banco Mercantil">Banco Mercantil</option>
+                        <option value="Banco Provincial">Banco Provincial</option>
+                        <option value="Banesco">Banesco</option>
+                        <option value="Banco Occidental de Descuento (BOD)">Banco Occidental de Descuento (BOD)</option>
+                        <option value="Banco Fondo Común">Banco Fondo Común</option>
+                        <option value="Banco Nacional de Crédito (BNC)">Banco Nacional de Crédito (BNC)</option>
+                        <option value="Banco Exterior">Banco Exterior</option>
+                        <option value="100% Banco">100% Banco</option>
+                        <option value="Banco Plaza">Banco Plaza</option>
+                        <option value="Banco Venezolano de Crédito (BVC)">Banco Venezolano de Crédito (BVC)</option>
+                        <option value="Banco Caroní">Banco Caroní</option>
+                        <option value="Bangente">Bangente</option>
+                        <option value="Banco Activo">Banco Activo</option>
+                        <option value="Banco Bicentenario">Banco Bicentenario</option>
+                        <option value="Banco del Tesoro">Banco del Tesoro</option>
+                        <option value="Banfoandes">Banfoandes</option>
+                        <option value="Banco Internacional de Desarrollo">Banco Internacional de Desarrollo</option>
+                        <option value="Mi Banco">Mi Banco</option>
+                    </select>
+                    <input type="text" id="pago-pm-referencia" placeholder="Referencia" style="grid-column: span 2;">
+                </div>
+            </div>
+
+            <!-- Descuentos -->
+            <div class="pago-descuentos">
+                <label>Descuentos</label>
+                <div class="pago-descuentos-inputs">
+                    <input type="number" step="0.01" id="pago-descuento-porcentaje" placeholder="%" oninput="aplicarDescuentoPorcentaje()">
+                    <input type="number" step="0.01" id="pago-descuento-monto" placeholder="$" oninput="aplicarDescuentoMonto()">
+                    <button type="button" class="btn btn-secondary" onclick="limpiarDescuentos()">Limpiar</button>
+                </div>
+            </div>
+
+            <!-- Totales -->
+            <div class="pago-totales">
+                <div class="pago-total-item">
+                    <span>Subtotal:</span>
+                    <span id="pago-subtotal">$0.00</span>
+                </div>
+                <div class="pago-total-item">
+                    <span>Descuento:</span>
+                    <span id="pago-descuento">$0.00</span>
+                </div>
+                <div class="pago-total-item">
+                    <span>Impuesto:</span>
+                    <span id="pago-impuesto">$0.00</span>
+                </div>
+                <div class="pago-total-item pago-total-final">
+                    <span>TOTAL:</span>
+                    <span id="pago-total">$0.00</span>
+                </div>
+                <div class="pago-total-item pago-faltante">
+                    <span id="pago-faltante-label">Falta:</span>
+                    <span id="pago-faltante">$0.00</span>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" onclick="closeModal('modal-pago')">Cancelar</button>
+            <button type="button" class="btn btn-secondary" onclick="guardarOperacionEspera()">Guardar</button>
+            <button type="button" class="btn btn-primary" onclick="procesarPago()">Procesar Pago</button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Nuevo/Editar Usuario -->
+<div id="modal-usuario" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modal-usuario-title">Nuevo Usuario</h2>
+            <button class="close" onclick="closeModal('modal-usuario')">&times;</button>
+        </div>
+        <form id="form-usuario" onsubmit="guardarUsuario(event)">
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Usuario *</label>
+                    <input type="text" name="username" id="usuario-username" required>
+                </div>
+                <div class="form-group">
+                    <label>Nombre Completo *</label>
+                    <input type="text" name="nombre_completo" id="usuario-nombre-completo" required>
+                </div>
+                <div class="form-group">
+                    <label>Contraseña <span id="usuario-password-label">*</span></label>
+                    <input type="password" name="password" id="usuario-password">
+                    <small id="usuario-password-hint">Dejar vacío para mantener la contraseña actual</small>
+                </div>
+                <div class="form-group">
+                    <label>Rol *</label>
+                    <select name="rol" id="usuario-rol" required>
+                        <option value="cajero">Cajero</option>
+                        <option value="admin">Administrador</option>
+                        <option value="soporte">Soporte</option>
+                        <option value="sistema">Sistema</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" onclick="closeModal('modal-usuario')">Cancelar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+let productoEditandoId = null;
+let clienteEditandoId = null;
+let proveedorEditandoId = null;
+
+function openModal(modalId) {
+    document.getElementById(modalId).style.display = 'block';
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).style.display = 'none';
+    document.body.style.overflow = 'auto';
+    // Limpiar formularios
+    if (modalId === 'modal-cliente') {
+        document.getElementById('form-cliente').reset();
+        clienteEditandoId = null;
+        document.getElementById('modal-cliente-title').textContent = 'Nuevo Cliente';
+    } else if (modalId === 'modal-producto') {
+        document.getElementById('form-producto').reset();
+        productoEditandoId = null;
+        document.getElementById('modal-producto-title').textContent = 'Nuevo Producto';
+        document.getElementById('venta-mayor-fields').style.display = 'none';
+    } else if (modalId === 'modal-proveedor') {
+        document.getElementById('form-proveedor').reset();
+        proveedorEditandoId = null;
+        document.getElementById('modal-proveedor-title').textContent = 'Nuevo Proveedor';
+    }
+}
+
+// Cerrar modal al hacer clic fuera
+window.onclick = function(event) {
+    const modals = document.querySelectorAll('.modal');
+    modals.forEach(modal => {
+        if (event.target === modal) {
+            closeModal(modal.id);
+        }
+    });
+}
+
+function toggleVentaMayor() {
+    const checkbox = document.getElementById('producto-vende-mayor');
+    const fields = document.getElementById('venta-mayor-fields');
+    fields.style.display = checkbox.checked ? 'block' : 'none';
+}
+
+// Funciones para clientes
+function nuevoCliente() {
+    clienteEditandoId = null;
+    document.getElementById('modal-cliente-title').textContent = 'Nuevo Cliente';
+    document.getElementById('form-cliente').reset();
+    openModal('modal-cliente');
+}
+
+// Hacer disponible globalmente
+window.nuevoCliente = nuevoCliente;
+
+function editarCliente(id) {
+    fetch(`/api/cliente/${id}`)
+        .then(res => res.json())
+        .then(cliente => {
+            clienteEditandoId = id;
+            document.getElementById('modal-cliente-title').textContent = 'Editar Cliente';
+            document.getElementById('cliente-rif').value = cliente.rif || '';
+            document.getElementById('cliente-nombre').value = cliente.nombre || '';
+            document.getElementById('cliente-apellido').value = cliente.apellido || '';
+            document.getElementById('cliente-telefono').value = cliente.telefono || '';
+            document.getElementById('cliente-email').value = cliente.email || '';
+            document.getElementById('cliente-direccion').value = cliente.direccion || '';
+            openModal('modal-cliente');
+        });
+}
+
+function guardarCliente(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData);
+    
+    const url = clienteEditandoId ? `/api/cliente/${clienteEditandoId}` : '/api/cliente';
+    const method = clienteEditandoId ? 'PUT' : 'POST';
+    
+    fetch(url, {
+        method: method,
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(result => {
+        if (result.success) {
+            alert('Cliente guardado correctamente');
+            closeModal('modal-cliente');
+            
+            // Si estamos en punto de venta, actualizar el campo de cliente
+            const clienteNombreFieldPV = document.getElementById('cliente-nombre-pv');
+            if (clienteNombreFieldPV && !clienteEditandoId) {
+                const nombreCompleto = `${data.nombre} ${data.apellido || ''}`.trim();
+                clienteNombreFieldPV.value = nombreCompleto;
+                if (result.id) {
+                    // Guardar ID del cliente en variable global
+                    if (typeof window !== 'undefined') {
+                        window.clienteId = result.id;
+                    }
+                }
+            } else if (!clienteEditandoId) {
+                // Si no estamos en punto de venta, recargar página
+                location.reload();
+            } else {
+                // Si estamos editando, recargar siempre
+                location.reload();
+            }
+        } else {
+            alert('Error: ' + (result.error || 'No se pudo guardar'));
+        }
+    })
+    .catch(error => {
+        alert('Error: ' + error.message);
+    });
+}
+
+// Funciones para productos
+function nuevoProducto() {
+    productoEditandoId = null;
+    document.getElementById('modal-producto-title').textContent = 'Nuevo Producto';
+    document.getElementById('form-producto').reset();
+    document.getElementById('venta-mayor-fields').style.display = 'none';
+    cargarCategorias();
+    openModal('modal-producto');
+}
+
+// Hacer disponible globalmente
+window.nuevoProducto = nuevoProducto;
+
+function editarProducto(id) {
+    fetch(`/api/producto/${id}`)
+        .then(res => res.json())
+        .then(producto => {
+            productoEditandoId = id;
+            document.getElementById('modal-producto-title').textContent = 'Editar Producto';
+            document.getElementById('producto-codigo').value = producto.codigo_barras || '';
+            document.getElementById('producto-nombre').value = producto.nombre || '';
+            document.getElementById('producto-descripcion').value = producto.descripcion || '';
+            document.getElementById('producto-tipo').value = producto.tipo_producto || 'Otros';
+            document.getElementById('producto-marca').value = producto.marca || '';
+            document.getElementById('producto-color').value = producto.color || '';
+            document.getElementById('producto-precio-venta-usd').value = producto.precio_venta_usd || '';
+            document.getElementById('producto-precio-compra-usd').value = producto.precio_compra_usd || '';
+            document.getElementById('producto-stock-actual').value = producto.stock_actual || 0;
+            document.getElementById('producto-stock-minimo').value = producto.stock_minimo || 0;
+            document.getElementById('producto-vende-mayor').checked = producto.vende_al_mayor || false;
+            document.getElementById('producto-unidades-bulto').value = producto.unidades_por_bulto || 1;
+            document.getElementById('producto-unidad-medida').value = producto.unidad_medida || 'unidad';
+            
+            toggleVentaMayor();
+            cargarCategorias(producto.categoria_id);
+            openModal('modal-producto');
+        });
+}
+
+function cargarCategorias(selectedId = null) {
+    fetch('/api/categorias')
+        .then(res => res.json())
+        .then(categorias => {
+            const select = document.getElementById('producto-categoria');
+            select.innerHTML = '<option value="">Sin categoría</option>';
+            categorias.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.id;
+                option.textContent = cat.nombre;
+                if (selectedId && cat.id === selectedId) {
+                    option.selected = true;
+                }
+                select.appendChild(option);
+            });
+        });
+}
+
+function guardarProducto(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData);
+    
+    // Convertir valores numéricos
+    data.precio_venta_usd = parseFloat(data.precio_venta_usd) || 0;
+    data.precio_compra_usd = parseFloat(data.precio_compra_usd) || 0;
+    data.stock_actual = parseFloat(data.stock_actual) || 0;
+    data.stock_minimo = parseFloat(data.stock_minimo) || 0;
+    data.categoria_id = data.categoria_id || null;
+    data.vende_al_mayor = document.getElementById('producto-vende-mayor').checked ? 1 : 0;
+    data.unidades_por_bulto = parseFloat(data.unidades_por_bulto) || 1;
+    
+    const url = productoEditandoId ? `/api/producto/${productoEditandoId}` : '/api/producto';
+    const method = productoEditandoId ? 'PUT' : 'POST';
+    
+    fetch(url, {
+        method: method,
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(result => {
+        if (result.success) {
+            alert('Producto guardado correctamente');
+            closeModal('modal-producto');
+            location.reload();
+        } else {
+            alert('Error: ' + (result.error || 'No se pudo guardar'));
+        }
+    })
+    .catch(error => {
+        alert('Error: ' + error.message);
+    });
+}
+
+// Funciones para proveedores
+function nuevoProveedor() {
+    proveedorEditandoId = null;
+    document.getElementById('modal-proveedor-title').textContent = 'Nuevo Proveedor';
+    document.getElementById('form-proveedor').reset();
+    openModal('modal-proveedor');
+}
+
+// Hacer disponible globalmente
+window.nuevoProveedor = nuevoProveedor;
+
+function editarProveedor(id) {
+    fetch(`/api/proveedor/${id}`)
+        .then(res => res.json())
+        .then(proveedor => {
+            proveedorEditandoId = id;
+            document.getElementById('modal-proveedor-title').textContent = 'Editar Proveedor';
+            document.getElementById('proveedor-nombre').value = proveedor.nombre || '';
+            document.getElementById('proveedor-rif').value = proveedor.rif || '';
+            document.getElementById('proveedor-contacto').value = proveedor.contacto || '';
+            document.getElementById('proveedor-telefono').value = proveedor.telefono || '';
+            document.getElementById('proveedor-email').value = proveedor.email || '';
+            document.getElementById('proveedor-direccion').value = proveedor.direccion || '';
+            document.getElementById('proveedor-notas').value = proveedor.notas || '';
+            openModal('modal-proveedor');
+        });
+}
+
+function guardarProveedor(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData);
+    
+    const url = proveedorEditandoId ? `/api/proveedor/${proveedorEditandoId}` : '/api/proveedor';
+    const method = proveedorEditandoId ? 'PUT' : 'POST';
+    
+    fetch(url, {
+        method: method,
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(result => {
+        if (result.success) {
+            alert('Proveedor guardado correctamente');
+            closeModal('modal-proveedor');
+            location.reload();
+        } else {
+            alert('Error: ' + (result.error || 'No se pudo guardar'));
+        }
+    })
+    .catch(error => {
+        alert('Error: ' + error.message);
+    });
+}
+
+function eliminarCliente(id) {
+    if (confirm('¿Está seguro de eliminar este cliente?')) {
+        fetch(`/api/cliente/${id}`, {method: 'DELETE'})
+            .then(res => res.json())
+            .then(result => {
+                if (result.success) {
+                    alert('Cliente eliminado');
+                    location.reload();
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            });
+    }
+}
+
+function eliminarProducto(id) {
+    if (confirm('¿Está seguro de eliminar este producto?')) {
+        fetch(`/api/producto/${id}`, {method: 'DELETE'})
+            .then(res => res.json())
+            .then(result => {
+                if (result.success) {
+                    alert('Producto eliminado');
+                    location.reload();
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            });
+    }
+}
+
+function eliminarProveedor(id) {
+    if (confirm('¿Está seguro de eliminar este proveedor?')) {
+        fetch(`/api/proveedor/${id}`, {method: 'DELETE'})
+            .then(res => res.json())
+            .then(result => {
+                if (result.success) {
+                    alert('Proveedor eliminado');
+                    location.reload();
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            });
+    }
+}
+
+// Variables globales para el modal de pago
+let pagoSubtotal = 0;
+let pagoDescuento = 0;
+let pagoImpuesto = 0;
+let pagoTotal = 0;
+let pagoTasaCambio = 1;
+let pagoMonedaPrincipal = 'USD';
+let pagoCarritoItems = [];
+let pagoClienteId = null;
+
+// Funciones para el modal de pago
+function abrirModalPago(carrito, clienteId, monedaPrincipal, tasaCambio) {
+    pagoCarritoItems = carrito;
+    pagoClienteId = clienteId;
+    pagoMonedaPrincipal = monedaPrincipal || 'USD';
+    pagoTasaCambio = tasaCambio || 1;
+    
+    // Calcular subtotal
+    pagoSubtotal = carrito.reduce((sum, item) => sum + (item.cantidad * item.precio_unitario), 0);
+    pagoDescuento = 0;
+    pagoImpuesto = 0;
+    pagoTotal = pagoSubtotal;
+    
+    // Limpiar campos
+    document.getElementById('pago-efectivo').value = '';
+    document.getElementById('pago-tarjeta').value = '';
+    document.getElementById('pago-transferencia').value = '';
+    document.getElementById('pago-pago-movil').value = '';
+    document.getElementById('pago-tarjeta-tipo').value = 'Débito';
+    document.getElementById('pago-tarjeta-ref').value = '';
+    document.getElementById('pago-transferencia-banco').value = 'Banco de Venezuela';
+    document.getElementById('pago-transferencia-ref').value = '';
+    document.getElementById('pago-pm-telefono').value = '';
+    document.getElementById('pago-pm-cedula').value = '';
+    document.getElementById('pago-pm-banco').value = 'Banco de Venezuela';
+    document.getElementById('pago-pm-referencia').value = '';
+    document.getElementById('pago-descuento-porcentaje').value = '';
+    document.getElementById('pago-descuento-monto').value = '';
+    
+    actualizarTotalesPago();
+    openModal('modal-pago');
+}
+
+// Hacer disponible globalmente
+window.abrirModalPago = abrirModalPago;
+
+function actualizarTotalesPago() {
+    const simbolo = pagoMonedaPrincipal === 'USD' ? '$' : 'Bs.';
+    
+    // Actualizar labels
+    document.getElementById('pago-subtotal').textContent = `${simbolo}${pagoSubtotal.toFixed(2)}`;
+    document.getElementById('pago-descuento').textContent = `${simbolo}${pagoDescuento.toFixed(2)}`;
+    document.getElementById('pago-impuesto').textContent = `${simbolo}${pagoImpuesto.toFixed(2)}`;
+    document.getElementById('pago-total').textContent = `${simbolo}${pagoTotal.toFixed(2)}`;
+    
+    // Calcular total pagado
+    const efectivo = parseFloat(document.getElementById('pago-efectivo').value) || 0;
+    const tarjeta = parseFloat(document.getElementById('pago-tarjeta').value) || 0;
+    const transferencia = parseFloat(document.getElementById('pago-transferencia').value) || 0;
+    const pagoMovil = parseFloat(document.getElementById('pago-pago-movil').value) || 0;
+    
+    const totalPagado = efectivo + tarjeta + transferencia + pagoMovil;
+    const faltante = Math.max(0, pagoTotal - totalPagado);
+    
+    const faltanteLabel = document.getElementById('pago-faltante-label');
+    const faltanteSpan = document.getElementById('pago-faltante');
+    
+    if (faltante > 0) {
+        faltanteLabel.textContent = 'Falta:';
+        faltanteSpan.textContent = `${simbolo}${faltante.toFixed(2)}`;
+        faltanteSpan.style.color = '#e74c3c';
+    } else {
+        faltanteLabel.textContent = 'Cambio:';
+        faltanteSpan.textContent = `${simbolo}${Math.abs(faltante).toFixed(2)}`;
+        faltanteSpan.style.color = '#27ae60';
+    }
+}
+
+function setTotalPago(metodo) {
+    const faltante = Math.max(0, pagoTotal - getTotalPagado());
+    const inputId = metodo === 'efectivo' ? 'pago-efectivo' : 
+                    metodo === 'tarjeta' ? 'pago-tarjeta' :
+                    metodo === 'transferencia' ? 'pago-transferencia' : 'pago-pago-movil';
+    document.getElementById(inputId).value = faltante.toFixed(2);
+    actualizarTotalesPago();
+}
+
+function getTotalPagado() {
+    const efectivo = parseFloat(document.getElementById('pago-efectivo').value) || 0;
+    const tarjeta = parseFloat(document.getElementById('pago-tarjeta').value) || 0;
+    const transferencia = parseFloat(document.getElementById('pago-transferencia').value) || 0;
+    const pagoMovil = parseFloat(document.getElementById('pago-pago-movil').value) || 0;
+    return efectivo + tarjeta + transferencia + pagoMovil;
+}
+
+function aplicarDescuentoPorcentaje() {
+    const porcentaje = parseFloat(document.getElementById('pago-descuento-porcentaje').value) || 0;
+    if (porcentaje >= 0 && porcentaje <= 100) {
+        pagoDescuento = pagoSubtotal * (porcentaje / 100);
+        document.getElementById('pago-descuento-monto').value = '';
+        pagoTotal = pagoSubtotal + pagoImpuesto - pagoDescuento;
+        actualizarTotalesPago();
+    }
+}
+
+function aplicarDescuentoMonto() {
+    const monto = parseFloat(document.getElementById('pago-descuento-monto').value) || 0;
+    if (monto >= 0 && monto <= pagoSubtotal) {
+        pagoDescuento = monto;
+        document.getElementById('pago-descuento-porcentaje').value = '';
+        pagoTotal = pagoSubtotal + pagoImpuesto - pagoDescuento;
+        actualizarTotalesPago();
+    }
+}
+
+function limpiarDescuentos() {
+    pagoDescuento = 0;
+    document.getElementById('pago-descuento-porcentaje').value = '';
+    document.getElementById('pago-descuento-monto').value = '';
+    pagoTotal = pagoSubtotal + pagoImpuesto;
+    actualizarTotalesPago();
+}
+
+function procesarPago() {
+    const totalPagado = getTotalPagado();
+    
+    if (totalPagado < pagoTotal) {
+        alert('El monto pagado no cubre el total');
+        return;
+    }
+    
+    // Determinar método de pago principal
+    const efectivo = parseFloat(document.getElementById('pago-efectivo').value) || 0;
+    const tarjeta = parseFloat(document.getElementById('pago-tarjeta').value) || 0;
+    const transferencia = parseFloat(document.getElementById('pago-transferencia').value) || 0;
+    const pagoMovil = parseFloat(document.getElementById('pago-pago-movil').value) || 0;
+    
+    let metodoPago = 'efectivo';
+    if (tarjeta > 0) metodoPago = 'tarjeta';
+    else if (transferencia > 0) metodoPago = 'transferencia';
+    else if (pagoMovil > 0) metodoPago = 'pago_movil';
+    
+    // Construir detalles del método de pago
+    let metodoDetalle = metodoPago;
+    if (metodoPago === 'tarjeta') {
+        const tipo = document.getElementById('pago-tarjeta-tipo').value;
+        const ref = document.getElementById('pago-tarjeta-ref').value;
+        metodoDetalle = `tarjeta (${tipo}${ref ? ', Ref: ' + ref : ''})`;
+    } else if (metodoPago === 'transferencia') {
+        const banco = document.getElementById('pago-transferencia-banco').value;
+        const ref = document.getElementById('pago-transferencia-ref').value;
+        metodoDetalle = `transferencia (${banco}${ref ? ', Ref: ' + ref : ''})`;
+    } else if (metodoPago === 'pago_movil') {
+        const tel = document.getElementById('pago-pm-telefono').value;
+        const ci = document.getElementById('pago-pm-cedula').value;
+        const banco = document.getElementById('pago-pm-banco').value;
+        const ref = document.getElementById('pago-pm-referencia').value;
+        metodoDetalle = `pago_movil (Tel: ${tel}, CI: ${ci}, Banco: ${banco}${ref ? ', Ref: ' + ref : ''})`;
+    }
+    
+    // Preparar pagos
+    const pagos = [];
+    const monedaEfectivo = document.getElementById('pago-moneda-efectivo').value;
+    
+    if (efectivo > 0) {
+        pagos.push({
+            tipo_pago: 'efectivo',
+            monto_pagado: efectivo,
+            moneda_pago: monedaEfectivo,
+            tasa_cambio: pagoTasaCambio,
+            detalles: {
+                monto_recibido: efectivo,
+                cambio: efectivo - (metodoPago === 'efectivo' ? pagoTotal : 0),
+                total_venta: pagoTotal
+            }
+        });
+    }
+    
+    if (tarjeta > 0) {
+        pagos.push({
+            tipo_pago: `tarjeta_${document.getElementById('pago-tarjeta-tipo').value.toLowerCase()}`,
+            monto_pagado: tarjeta,
+            moneda_pago: pagoMonedaPrincipal,
+            tasa_cambio: pagoTasaCambio,
+            detalles: {
+                tipo_tarjeta: document.getElementById('pago-tarjeta-tipo').value,
+                referencia: document.getElementById('pago-tarjeta-ref').value
+            }
+        });
+    }
+    
+    if (transferencia > 0) {
+        pagos.push({
+            tipo_pago: 'transferencia',
+            monto_pagado: transferencia,
+            moneda_pago: pagoMonedaPrincipal,
+            tasa_cambio: pagoTasaCambio,
+            detalles: {
+                banco: document.getElementById('pago-transferencia-banco').value,
+                referencia: document.getElementById('pago-transferencia-ref').value
+            }
+        });
+    }
+    
+    if (pagoMovil > 0) {
+        pagos.push({
+            tipo_pago: 'pago_movil',
+            monto_pagado: pagoMovil,
+            moneda_pago: 'VES',
+            tasa_cambio: pagoTasaCambio,
+            detalles: {
+                telefono: document.getElementById('pago-pm-telefono').value,
+                cedula: document.getElementById('pago-pm-cedula').value,
+                banco: document.getElementById('pago-pm-banco').value,
+                referencia: document.getElementById('pago-pm-referencia').value
+            }
+        });
+    }
+    
+    // Preparar items de venta
+    const itemsVenta = pagoCarritoItems.map(item => ({
+        producto_id: item.producto_id,
+        cantidad: item.cantidad,
+        precio_unitario: item.precio_unitario
+    }));
+    
+    const datos = {
+        items: itemsVenta,
+        cliente_id: pagoClienteId,
+        metodo_pago: metodoDetalle,
+        descuento: pagoDescuento,
+        impuesto: pagoImpuesto,
+        notas: '',
+        pagos: pagos
+    };
+    
+    fetch('/api/venta', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(datos)
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            const cambio = totalPagado - pagoTotal;
+            let mensaje = `¡Pago procesado exitosamente!\n\nFolio de venta: ${data.venta_id}\nTotal: ${pagoMonedaPrincipal === 'USD' ? '$' : 'Bs.'}${pagoTotal.toFixed(2)}`;
+            if (cambio > 0 && metodoPago === 'efectivo') {
+                mensaje += `\nCambio: ${pagoMonedaPrincipal === 'USD' ? '$' : 'Bs.'}${cambio.toFixed(2)}`;
+            }
+            alert(mensaje);
+            closeModal('modal-pago');
+            
+            // Si estamos en punto de venta, limpiar carrito y recargar
+            if (typeof limpiarCarrito === 'function') {
+                limpiarCarrito();
+            }
+            if (typeof cargarProductos === 'function') {
+                cargarProductos();
+            } else {
+                location.reload();
+            }
+        } else {
+            alert('Error: ' + (data.error || 'No se pudo procesar el pago'));
+        }
+    })
+    .catch(error => {
+        alert('Error: ' + error.message);
+    });
+}
+
+function guardarOperacionEspera() {
+    const nombre = prompt('Nombre de la operación:');
+    if (!nombre) return;
+    
+    const datos = {
+        nombre_operacion: nombre,
+        carrito_data: JSON.stringify(pagoCarritoItems),
+        cliente_id: pagoClienteId
+    };
+    
+    fetch('/api/operaciones-espera', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(datos)
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            alert('Operación guardada correctamente');
+            closeModal('modal-pago');
+            if (typeof limpiarCarrito === 'function') {
+                limpiarCarrito();
+            }
+        } else {
+            alert('Error: ' + (data.error || 'No se pudo guardar'));
+        }
+    });
+}
+
+// Funciones para usuarios
+let usuarioEditandoId = null;
+
+function nuevoUsuario() {
+    usuarioEditandoId = null;
+    document.getElementById('modal-usuario-title').textContent = 'Nuevo Usuario';
+    document.getElementById('form-usuario').reset();
+    document.getElementById('usuario-password').required = true;
+    document.getElementById('usuario-password-label').textContent = '*';
+    document.getElementById('usuario-password-hint').classList.remove('show');
+    openModal('modal-usuario');
+}
+
+// Hacer disponible globalmente
+window.nuevoUsuario = nuevoUsuario;
+
+function editarUsuario(id) {
+    fetch(`/api/usuario/${id}`)
+        .then(res => res.json())
+        .then(usuario => {
+            usuarioEditandoId = id;
+            document.getElementById('modal-usuario-title').textContent = 'Editar Usuario';
+            document.getElementById('usuario-username').value = usuario.username || '';
+            document.getElementById('usuario-nombre-completo').value = usuario.nombre_completo || '';
+            document.getElementById('usuario-rol').value = usuario.rol || 'cajero';
+            document.getElementById('usuario-password').value = '';
+            document.getElementById('usuario-password').required = false;
+            document.getElementById('usuario-password-label').textContent = '';
+            document.getElementById('usuario-password-hint').style.display = 'block';
+            document.getElementById('usuario-password-hint').classList.add('show');
+            openModal('modal-usuario');
+        });
+}
+
+function guardarUsuario(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = Object.fromEntries(formData);
+    
+    // Si estamos editando y no hay contraseña, no enviarla
+    if (usuarioEditandoId && !data.password) {
+        delete data.password;
+    }
+    
+    const url = usuarioEditandoId ? `/api/usuario/${usuarioEditandoId}` : '/api/usuario';
+    const method = usuarioEditandoId ? 'PUT' : 'POST';
+    
+    fetch(url, {
+        method: method,
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(result => {
+        if (result.success) {
+            alert('Usuario guardado correctamente');
+            closeModal('modal-usuario');
+            location.reload();
+        } else {
+            alert('Error: ' + (result.error || 'No se pudo guardar'));
+        }
+    })
+    .catch(error => {
+        alert('Error: ' + error.message);
+    });
+}
+
+function eliminarUsuario(id) {
+    if (confirm('¿Está seguro de eliminar este usuario?')) {
+        fetch(`/api/usuario/${id}`, {method: 'DELETE'})
+            .then(res => res.json())
+            .then(result => {
+                if (result.success) {
+                    alert('Usuario eliminado');
+                    location.reload();
+                } else {
+                    alert('Error: ' + result.error);
+                }
+            });
+    }
+}
+
+// Hacer disponible globalmente
+window.editarUsuario = editarUsuario;
+window.eliminarUsuario = eliminarUsuario;
+</script>
+

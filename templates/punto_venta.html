@@ -1,0 +1,665 @@
+{% extends "base.html" %}
+
+{% block title %}Punto de Venta{% endblock %}
+
+{% block extra_css %}
+<style>
+    .punto-venta-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 24px;
+        height: calc(100vh - 100px);
+    }
+
+    .productos-section {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 24px;
+        overflow-y: auto;
+        box-shadow: var(--shadow);
+    }
+
+    .carrito-section {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        box-shadow: var(--shadow);
+    }
+
+    .search-bar {
+        display: flex;
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+
+    .search-bar input {
+        flex: 1;
+        padding: 12px 16px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 14px;
+        background: var(--surface);
+        transition: all 0.2s;
+    }
+
+    .search-bar input:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .categorias {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 20px;
+        overflow-x: auto;
+        padding: 8px 0;
+    }
+
+    .categoria-btn {
+        padding: 8px 16px;
+        background: var(--background);
+        color: var(--text);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        cursor: pointer;
+        white-space: nowrap;
+        font-size: 13px;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+
+    .categoria-btn:hover {
+        background: var(--surface);
+        border-color: var(--primary);
+    }
+
+    .categoria-btn.active {
+        background: var(--primary);
+        color: white;
+        border-color: var(--primary);
+    }
+
+    .productos-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+    }
+
+    .producto-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 16px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .producto-card:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--primary);
+    }
+
+    .producto-card.sin-stock {
+        background: var(--background);
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+    .producto-card.stock-bajo {
+        border-color: var(--warning);
+    }
+
+    .producto-nombre {
+        font-weight: bold;
+        margin-bottom: 5px;
+        font-size: 14px;
+    }
+
+    .producto-precio {
+        color: var(--primary);
+        font-size: 16px;
+        font-weight: 600;
+        margin: 8px 0;
+    }
+
+    .producto-stock {
+        font-size: 12px;
+        color: #666;
+    }
+
+    .carrito-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+
+    .cliente-selector {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .cliente-selector input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+    .carrito-items {
+        flex: 1;
+        overflow-y: auto;
+        margin-bottom: 20px;
+    }
+
+    .carrito-table {
+        width: 100%;
+        border-collapse: collapse;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .carrito-table th,
+    .carrito-table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .carrito-table th {
+        background: var(--background);
+        color: var(--text);
+        font-weight: 600;
+        font-size: 13px;
+    }
+
+    .carrito-totales {
+        background: var(--background);
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border: 1px solid var(--border);
+    }
+
+    .total-line {
+        display: flex;
+        justify-content: space-between;
+        margin: 10px 0;
+        font-size: 18px;
+    }
+
+    .total-final {
+        font-size: 28px;
+        font-weight: 600;
+        color: var(--primary);
+        border-top: 2px solid var(--primary);
+        padding-top: 12px;
+    }
+
+    .carrito-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-action {
+        flex: 1;
+        padding: 15px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+    .btn-limpiar {
+        background: var(--background);
+        color: var(--text);
+        border: 1px solid var(--border);
+    }
+
+    .btn-guardar {
+        background: var(--background);
+        color: var(--text);
+        border: 1px solid var(--border);
+    }
+
+    .btn-cobrar {
+        background: var(--primary);
+        color: white;
+    }
+
+    .btn-action:hover {
+        opacity: 0.8;
+    }
+
+    .moneda-selector {
+        margin-bottom: 16px;
+    }
+
+    .moneda-selector label {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--text-light);
+        margin-right: 8px;
+    }
+
+    .moneda-selector select {
+        padding: 8px 12px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .moneda-selector select:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="punto-venta-container">
+    <!-- Sección de Productos -->
+    <div class="productos-section">
+        <h2>Productos</h2>
+        
+        <div class="search-bar">
+            <input type="text" id="buscar-producto" placeholder="🔍 Buscar producto (nombre, código o QR)">
+            <button class="categoria-btn" onclick="buscarProductos()">🔍</button>
+        </div>
+
+        <div class="categorias">
+            <button class="categoria-btn active" onclick="filtrarCategoria(null)">Todos</button>
+            {% for categoria in categorias %}
+            <button class="categoria-btn" onclick="filtrarCategoria({{ categoria.id }})">
+                {{ categoria.nombre }}
+            </button>
+            {% endfor %}
+        </div>
+
+        <div class="productos-grid" id="productos-grid">
+            {% for producto in productos %}
+            <div class="producto-card {% if producto.stock_actual <= 0 %}sin-stock{% elif producto.stock_actual <= 5 %}stock-bajo{% endif %}"
+                 onclick="agregarAlCarrito({{ producto.id }})"
+                 data-producto-id="{{ producto.id }}">
+                <div class="producto-nombre">{{ producto.nombre[:20] }}{% if producto.nombre|length > 20 %}...{% endif %}</div>
+                <div class="producto-precio">
+                    {% if monedas|length > 1 %}
+                        ${{ "%.2f"|format(producto.precio_venta_usd or 0) }}<br>
+                        Bs.{{ "%.2f"|format(producto.precio_venta or 0) }}
+                    {% else %}
+                        ${{ "%.2f"|format(producto.precio_venta_usd or producto.precio_venta or 0) }}
+                    {% endif %}
+                </div>
+                <div class="producto-stock">Stock: {{ producto.stock_actual }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Sección del Carrito -->
+    <div class="carrito-section">
+        <div class="carrito-header">
+            <h2>Carrito de Venta</h2>
+        </div>
+
+        <div class="moneda-selector">
+            <label>Moneda:</label>
+            <select id="moneda-principal" onchange="cambiarMoneda()">
+                {% for moneda in monedas %}
+                <option value="{{ moneda.codigo }}">{{ moneda.codigo }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="cliente-selector">
+            <input type="text" id="cliente-nombre-pv" placeholder="Nombre del cliente" 
+                   value="{% if cliente_info %}{{ cliente_info.nombre }} {{ cliente_info.apellido }}{% endif %}"
+                   style="flex: 1; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px;">
+            <button onclick="buscarCliente()" class="btn btn-info" style="padding: 10px 16px;">👤</button>
+            <button onclick="abrirModalNuevoCliente()" class="btn btn-primary" style="padding: 10px 16px;">+</button>
+        </div>
+
+        <div class="carrito-items">
+            <table class="carrito-table">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cant.</th>
+                        <th>Precio</th>
+                        <th>Subtotal</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="carrito-tbody">
+                    <tr>
+                        <td colspan="5" style="text-align: center; padding: 20px; color: #999;">
+                            El carrito está vacío
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="carrito-totales">
+            <div class="total-line">
+                <span>Subtotal:</span>
+                <span id="subtotal">$0.00</span>
+            </div>
+            <div class="total-line total-final">
+                <span>TOTAL:</span>
+                <span id="total">$0.00</span>
+            </div>
+        </div>
+
+        <div class="carrito-actions">
+            <button class="btn-action btn-limpiar" onclick="limpiarCarrito()">
+                🗑️ Limpiar
+            </button>
+            <button class="btn-action btn-guardar" onclick="guardarOperacion()">
+                💾 Guardar
+            </button>
+            <button class="btn-action btn-cobrar" onclick="procesarVenta()">
+                💰 Cobrar
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para procesar pago -->
+<div id="pago-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h2>Procesar Pago</h2>
+        <div id="pago-form">
+            <!-- Se llenará dinámicamente -->
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let carrito = [];
+    let categoriaActual = null;
+    let monedaPrincipal = '{{ monedas[0].codigo if monedas else "USD" }}';
+    let clienteId = {% if cliente_info %}{{ cliente_info.id }}{% else %}null{% endif %};
+    const tasaCambio = {{ tasa_cambio }};
+
+    function filtrarCategoria(categoriaId) {
+        categoriaActual = categoriaId;
+        document.querySelectorAll('.categoria-btn').forEach(btn => btn.classList.remove('active'));
+        event.target.classList.add('active');
+        cargarProductos();
+    }
+
+    function buscarProductos() {
+        const termino = document.getElementById('buscar-producto').value;
+        cargarProductos(termino);
+    }
+
+    function cargarProductos(busqueda = '') {
+        let url = '/api/productos?';
+        if (categoriaActual) url += `categoria_id=${categoriaActual}&`;
+        if (busqueda) url += `busqueda=${encodeURIComponent(busqueda)}`;
+        
+        fetch(url)
+            .then(res => res.json())
+            .then(productos => {
+                const grid = document.getElementById('productos-grid');
+                grid.innerHTML = productos.map(p => `
+                    <div class="producto-card ${p.stock_actual <= 0 ? 'sin-stock' : p.stock_actual <= 5 ? 'stock-bajo' : ''}"
+                         onclick="agregarAlCarrito(${p.id})">
+                        <div class="producto-nombre">${p.nombre.substring(0, 20)}${p.nombre.length > 20 ? '...' : ''}</div>
+                        <div class="producto-precio">
+                            ${p.precio_venta_usd ? '$' + parseFloat(p.precio_venta_usd).toFixed(2) : ''}
+                            ${p.precio_venta ? '<br>Bs.' + parseFloat(p.precio_venta).toFixed(2) : ''}
+                        </div>
+                        <div class="producto-stock">Stock: ${p.stock_actual}</div>
+                    </div>
+                `).join('');
+            });
+    }
+
+    function agregarAlCarrito(productoId) {
+        fetch(`/api/producto/${productoId}`)
+            .then(res => res.json())
+            .then(producto => {
+                if (producto.stock_actual <= 0) {
+                    alert('El producto no tiene stock disponible');
+                    return;
+                }
+
+                const cantidad = prompt(`Cantidad para ${producto.nombre} (stock: ${producto.stock_actual}):`, '1');
+                if (!cantidad || parseFloat(cantidad) <= 0) return;
+
+                const cantidadNum = parseFloat(cantidad);
+                if (cantidadNum > producto.stock_actual) {
+                    alert(`Solo hay ${producto.stock_actual} unidades disponibles`);
+                    return;
+                }
+
+                // Verificar si ya está en el carrito
+                const itemExistente = carrito.find(item => item.producto_id === producto.id);
+                if (itemExistente) {
+                    if (itemExistente.cantidad + cantidadNum > producto.stock_actual) {
+                        alert('No hay suficiente stock');
+                        return;
+                    }
+                    itemExistente.cantidad += cantidadNum;
+                } else {
+                    const precio = monedaPrincipal === 'USD' ? (producto.precio_venta_usd || 0) : (producto.precio_venta || 0);
+                    carrito.push({
+                        producto_id: producto.id,
+                        nombre: producto.nombre,
+                        cantidad: cantidadNum,
+                        precio_unitario: precio,
+                        stock_disponible: producto.stock_actual
+                    });
+                }
+
+                actualizarCarritoUI();
+            });
+    }
+
+    function actualizarCarritoUI() {
+        const tbody = document.getElementById('carrito-tbody');
+        const simbolo = monedaPrincipal === 'USD' ? '$' : 'Bs.';
+        
+        if (carrito.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; padding: 20px; color: #999;">El carrito está vacío</td></tr>';
+            document.getElementById('subtotal').textContent = simbolo + '0.00';
+            document.getElementById('total').textContent = simbolo + '0.00';
+            return;
+        }
+
+        let subtotal = 0;
+        tbody.innerHTML = carrito.map((item, index) => {
+            const itemSubtotal = item.cantidad * item.precio_unitario;
+            subtotal += itemSubtotal;
+            return `
+                <tr>
+                    <td>${item.nombre}</td>
+                    <td><input type="number" value="${item.cantidad}" min="0.01" step="0.01" 
+                               onchange="actualizarCantidad(${index}, this.value)" style="width: 60px;"></td>
+                    <td>${simbolo}${item.precio_unitario.toFixed(2)}</td>
+                    <td>${simbolo}${itemSubtotal.toFixed(2)}</td>
+                    <td><button onclick="eliminarItem(${index})">🗑️</button></td>
+                </tr>
+            `;
+        }).join('');
+
+        document.getElementById('subtotal').textContent = simbolo + subtotal.toFixed(2);
+        document.getElementById('total').textContent = simbolo + subtotal.toFixed(2);
+    }
+
+    function actualizarCantidad(index, nuevaCantidad) {
+        const cantidad = parseFloat(nuevaCantidad);
+        if (cantidad <= 0) {
+            eliminarItem(index);
+            return;
+        }
+        if (cantidad > carrito[index].stock_disponible) {
+            alert(`Solo hay ${carrito[index].stock_disponible} unidades disponibles`);
+            carrito[index].cantidad = carrito[index].stock_disponible;
+        } else {
+            carrito[index].cantidad = cantidad;
+        }
+        actualizarCarritoUI();
+    }
+
+    function eliminarItem(index) {
+        carrito.splice(index, 1);
+        actualizarCarritoUI();
+    }
+
+    function limpiarCarrito() {
+        if (confirm('¿Desea limpiar todo el carrito?')) {
+            carrito = [];
+            actualizarCarritoUI();
+        }
+    }
+
+    function cambiarMoneda() {
+        monedaPrincipal = document.getElementById('moneda-principal').value;
+        // Actualizar precios en el carrito
+        carrito.forEach(item => {
+            fetch(`/api/producto/${item.producto_id}`)
+                .then(res => res.json())
+                .then(producto => {
+                    item.precio_unitario = monedaPrincipal === 'USD' ? 
+                        (producto.precio_venta_usd || 0) : (producto.precio_venta || 0);
+                    actualizarCarritoUI();
+                });
+        });
+        cargarProductos();
+    }
+
+    function buscarCliente() {
+        const nombre = document.getElementById('cliente-nombre-pv').value;
+        if (!nombre || nombre.trim().length < 2) {
+            alert('Ingrese al menos 2 caracteres para buscar');
+            return;
+        }
+        
+        fetch(`/api/clientes?busqueda=${encodeURIComponent(nombre)}`)
+            .then(res => res.json())
+            .then(clientes => {
+                if (clientes.length === 0) {
+                    alert('No se encontraron clientes');
+                    return;
+                }
+                
+                if (clientes.length === 1) {
+                    clienteId = clientes[0].id;
+                    document.getElementById('cliente-nombre-pv').value = `${clientes[0].nombre} ${clientes[0].apellido || ''}`.trim();
+                    return;
+                }
+                
+                // Mostrar lista de clientes
+                const lista = clientes.map((c, i) => `${i+1}. ${c.nombre} ${c.apellido || ''}`).join('\n');
+                const seleccion = prompt(`Seleccione un cliente (número):\n\n${lista}\n\nIngrese el número:`, '1');
+                const indice = parseInt(seleccion) - 1;
+                if (indice >= 0 && indice < clientes.length) {
+                    clienteId = clientes[indice].id;
+                    document.getElementById('cliente-nombre-pv').value = `${clientes[indice].nombre} ${clientes[indice].apellido || ''}`.trim();
+                }
+            });
+    }
+
+    function abrirModalNuevoCliente() {
+        // Abrir modal de nuevo cliente (función definida en modals.html)
+        if (typeof window.nuevoCliente === 'function') {
+            window.nuevoCliente();
+        } else {
+            // Fallback: usar prompt simple
+            const nombre = prompt('Nombre del cliente:');
+            if (nombre) {
+                fetch('/api/cliente', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({nombre: nombre, apellido: '', telefono: '', email: '', direccion: ''})
+                })
+                .then(res => res.json())
+                .then(result => {
+                    if (result.success) {
+                        clienteId = result.id;
+                        document.getElementById('cliente-nombre-pv').value = nombre;
+                        alert('Cliente creado correctamente');
+                    }
+                });
+            }
+        }
+    }
+
+    function guardarOperacion() {
+        if (carrito.length === 0) {
+            alert('No hay productos en el carrito');
+            return;
+        }
+
+        const nombre = prompt('Nombre para la operación:');
+        if (!nombre) return;
+
+        const datos = {
+            nombre_operacion: nombre,
+            carrito_data: {
+                carrito: carrito,
+                cliente: document.getElementById('cliente-nombre').value
+            },
+            cliente_id: clienteId
+        };
+
+        fetch('/api/operaciones-espera', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(datos)
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                alert('Operación guardada correctamente');
+                limpiarCarrito();
+            } else {
+                alert('Error: ' + data.error);
+            }
+        });
+    }
+
+    function procesarVenta() {
+        if (carrito.length === 0) {
+            alert('No hay productos en el carrito');
+            return;
+        }
+
+        // Abrir modal de pago completo
+        if (typeof abrirModalPago === 'function') {
+            abrirModalPago(carrito, clienteId, monedaPrincipal, tasaCambio);
+        } else {
+            alert('Error: Modal de pago no disponible');
+        }
+    }
+
+    // Búsqueda en tiempo real
+    document.getElementById('buscar-producto').addEventListener('keyup', function(e) {
+        if (e.key === 'Enter') {
+            buscarProductos();
+        }
+    });
+</script>
+{% endblock %}
+

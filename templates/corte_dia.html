@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Corte del Día{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Corte del Día - {{ fecha }}</h2>
+    
+    <div style="margin-bottom: 20px;">
+        <input type="date" id="fecha-corte" value="{{ fecha }}" onchange="cambiarFecha()">
+    </div>
+
+    <div class="card">
+        <div class="card-header">Resumen General</div>
+        <div>
+            <p><strong>Total de Ventas:</strong> {{ corte.totales.total_ventas }}</p>
+            <p><strong>Total Ingresos:</strong> ${{ "%.2f"|format(corte.totales.total_ingresos or 0) }}</p>
+            <p><strong>Ticket Promedio:</strong> ${{ "%.2f"|format(corte.totales.ticket_promedio or 0) }}</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">Resumen por Método de Pago</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Método</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                    <th>Promedio</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for resumen in corte.resumen_pagos %}
+                <tr>
+                    <td>{{ resumen.metodo_pago }}</td>
+                    <td>{{ resumen.ventas_por_metodo }}</td>
+                    <td>${{ "%.2f"|format(resumen.total_por_metodo or 0) }}</td>
+                    <td>${{ "%.2f"|format(resumen.promedio_por_metodo or 0) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <div class="card-header">Productos Más Vendidos</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in corte.productos_mas_vendidos %}
+                <tr>
+                    <td>{{ producto.nombre }}</td>
+                    <td>{{ producto.cantidad_vendida }}</td>
+                    <td>${{ "%.2f"|format(producto.total_vendido or 0) }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+function cambiarFecha() {
+    const fecha = document.getElementById('fecha-corte').value;
+    window.location.href = `/corte-dia?fecha=${fecha}`;
+}
+</script>
+{% endblock %}
+
+

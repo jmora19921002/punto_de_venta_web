@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Punto de Venta</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body class="login-body">
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <div class="login-logo">📋</div>
+                <h1>MI PUNTO DE VENTA</h1>
+            </div>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST" action="{{ url_for('login') }}" class="login-form">
+                <div class="form-group">
+                    <input type="text" name="username" placeholder="👤 Usuario" required autofocus>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" placeholder="🔒 Contraseña" required>
+                </div>
+                <div class="form-options">
+                    <label>
+                        <input type="checkbox" name="remember"> Recordar Usuario
+                    </label>
+                    <label>
+                        <input type="checkbox" id="show-password"> Mostrar contraseña
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">INICIAR SESIÓN</button>
+                <button type="button" class="btn btn-secondary btn-block" onclick="window.close()">SALIR</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('show-password').addEventListener('change', function(e) {
+            const passwordInput = document.querySelector('input[name="password"]');
+            passwordInput.type = e.target.checked ? 'text' : 'password';
+        });
+    </script>
+</body>
+</html>
+
+

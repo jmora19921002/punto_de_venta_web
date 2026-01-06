@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Compras{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h2 style="margin: 0;">Gestión de Compras</h2>
+        <div style="display: flex; gap: 12px;">
+            <button onclick="nuevoProveedor()" class="btn btn-primary">➕ Nuevo Proveedor</button>
+            <button onclick="nuevaCompra()" class="btn btn-success">➕ Nueva Compra</button>
+        </div>
+    </div>
+
+    <div style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Proveedor</th>
+                    <th>Documento</th>
+                    <th>Fecha</th>
+                    <th>Total VES</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for compra in compras %}
+                <tr>
+                    <td>{{ compra.id }}</td>
+                    <td>{{ compra.proveedor_nombre }}</td>
+                    <td>{{ compra.documento or '-' }}</td>
+                    <td>{{ compra.fecha_compra }}</td>
+                    <td>Bs.{{ "%.2f"|format(compra.total_ves or 0) }}</td>
+                    <td>
+                        <span class="badge {% if compra.estado == 'pendiente' %}badge-warning{% elif compra.estado == 'pagado' %}badge-success{% else %}badge-danger{% endif %}">
+                            {{ compra.estado }}
+                        </span>
+                    </td>
+                    <td>
+                        <button onclick="verDetalle({{ compra.id }})" class="btn btn-info" style="padding: 6px 12px; font-size: 13px;">👁️ Ver</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+function nuevaCompra() {
+    alert('Funcionalidad de nueva compra - En desarrollo');
+}
+
+function verDetalle(id) {
+    alert('Detalle de compra #' + id + ' - En desarrollo');
+}
+</script>
+{% endblock %}
+

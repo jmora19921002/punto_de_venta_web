@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Clientes{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h2 style="margin: 0;">Gestión de Clientes</h2>
+        <button onclick="nuevoCliente()" class="btn btn-primary">➕ Nuevo Cliente</button>
+    </div>
+    
+    <div style="margin-bottom: 20px; display: flex; gap: 12px;">
+        <input type="text" id="buscar-cliente" placeholder="Buscar cliente..." 
+               style="flex: 1; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px;"
+               onkeyup="buscarClientes()">
+        <button onclick="buscarClientes()" class="btn btn-info">🔍 Buscar</button>
+    </div>
+
+    <div style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="clientes-tbody">
+                {% for cliente in clientes %}
+                <tr>
+                    <td>{{ cliente.nombre }}</td>
+                    <td>{{ cliente.apellido or '-' }}</td>
+                    <td>{{ cliente.telefono or '-' }}</td>
+                    <td>{{ cliente.email or '-' }}</td>
+                    <td>
+                        <button onclick="editarCliente({{ cliente.id }})" class="btn btn-warning" style="padding: 6px 12px; font-size: 13px;">✏️ Editar</button>
+                        <button onclick="eliminarCliente({{ cliente.id }})" class="btn btn-danger" style="padding: 6px 12px; font-size: 13px;">🗑️ Eliminar</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+function buscarClientes() {
+    const termino = document.getElementById('buscar-cliente').value;
+    if (termino.length >= 2 || termino.length === 0) {
+        fetch(`/api/clientes?busqueda=${encodeURIComponent(termino)}`)
+            .then(res => res.json())
+            .then(clientes => {
+                const tbody = document.getElementById('clientes-tbody');
+                tbody.innerHTML = clientes.map(c => `
+                    <tr>
+                        <td>${c.nombre}</td>
+                        <td>${c.apellido || '-'}</td>
+                        <td>${c.telefono || '-'}</td>
+                        <td>${c.email || '-'}</td>
+                        <td>
+                            <button onclick="editarCliente(${c.id})" class="btn btn-warning" style="padding: 6px 12px; font-size: 13px;">✏️ Editar</button>
+                            <button onclick="eliminarCliente(${c.id})" class="btn btn-danger" style="padding: 6px 12px; font-size: 13px;">🗑️ Eliminar</button>
+                        </td>
+                    </tr>
+                `).join('');
+            });
+    }
+}
+</script>
+{% endblock %}
+

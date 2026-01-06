@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Usuarios{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Gestión de Usuarios</h2>
+    
+    <div style="margin-bottom: 20px;">
+        <button onclick="nuevoUsuario()" class="btn btn-success">➕ Nuevo Usuario</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Usuario</th>
+                <th>Nombre Completo</th>
+                <th>Rol</th>
+                <th>Último Login</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for usuario in usuarios %}
+            <tr>
+                <td>{{ usuario.username }}</td>
+                <td>{{ usuario.nombre_completo }}</td>
+                <td>{{ usuario.rol }}</td>
+                <td>{{ usuario.ultimo_login or 'Nunca' }}</td>
+                <td>
+                    <button onclick="editarUsuario({{ usuario.id }})" class="btn btn-warning">✏️ Editar</button>
+                    <button onclick="eliminarUsuario({{ usuario.id }})" class="btn btn-danger">🗑️ Eliminar</button>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
+
+

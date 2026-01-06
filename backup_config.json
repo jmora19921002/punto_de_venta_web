@@ -1,0 +1,7 @@
+{
+  "backup_path": "C:\\Users\\DELL\\Documents\\Respaldos_PuntoVenta",
+  "auto_backup_enabled": true,
+  "backup_frequency_hours": 24,
+  "max_backups": 10,
+  "last_backup": "2025-10-14 17:11:26"
+}

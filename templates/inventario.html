@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Inventario{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+        <h2 style="margin: 0;">Gestión de Inventario</h2>
+        <button onclick="nuevoProducto()" class="btn btn-primary">➕ Nuevo Producto</button>
+    </div>
+    
+    <div style="margin-bottom: 20px; display: flex; gap: 12px;">
+        <input type="text" id="buscar-producto" placeholder="Buscar producto..." 
+               style="flex: 1; padding: 10px 14px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px;"
+               onkeyup="buscarProductos()">
+        <button onclick="buscarProductos()" class="btn btn-info">🔍 Buscar</button>
+    </div>
+
+    <div style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre</th>
+                    <th>Categoría</th>
+                    <th>Precio USD</th>
+                    <th>Precio VES</th>
+                    <th>Stock</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="productos-tbody">
+                {% for producto in productos %}
+                <tr>
+                    <td>{{ producto.codigo_barras or '-' }}</td>
+                    <td>{{ producto.nombre }}</td>
+                    <td>{{ producto.categoria or 'Sin categoría' }}</td>
+                    <td>${{ "%.2f"|format(producto.precio_venta_usd or 0) }}</td>
+                    <td>Bs.{{ "%.2f"|format(producto.precio_venta or 0) }}</td>
+                    <td>
+                        <span class="badge {% if producto.stock_actual <= 0 %}badge-danger{% elif producto.stock_actual <= 5 %}badge-warning{% else %}badge-success{% endif %}">
+                            {{ producto.stock_actual }}
+                        </span>
+                    </td>
+                    <td>
+                        <button onclick="editarProducto({{ producto.id }})" class="btn btn-warning" style="padding: 6px 12px; font-size: 13px;">✏️ Editar</button>
+                        <button onclick="eliminarProducto({{ producto.id }})" class="btn btn-danger" style="padding: 6px 12px; font-size: 13px;">🗑️ Eliminar</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+function buscarProductos() {
+    const termino = document.getElementById('buscar-producto').value;
+    if (termino.length >= 1 || termino.length === 0) {
+        fetch(`/api/productos?busqueda=${encodeURIComponent(termino)}`)
+            .then(res => res.json())
+            .then(productos => {
+                const tbody = document.getElementById('productos-tbody');
+                tbody.innerHTML = productos.map(p => {
+                    const badgeClass = p.stock_actual <= 0 ? 'badge-danger' : p.stock_actual <= 5 ? 'badge-warning' : 'badge-success';
+                    return `
+                        <tr>
+                            <td>${p.codigo_barras || '-'}</td>
+                            <td>${p.nombre}</td>
+                            <td>${p.categoria || 'Sin categoría'}</td>
+                            <td>$${parseFloat(p.precio_venta_usd || 0).toFixed(2)}</td>
+                            <td>Bs.${parseFloat(p.precio_venta || 0).toFixed(2)}</td>
+                            <td><span class="badge ${badgeClass}">${p.stock_actual}</span></td>
+                            <td>
+                                <button onclick="editarProducto(${p.id})" class="btn btn-warning" style="padding: 6px 12px; font-size: 13px;">✏️ Editar</button>
+                                <button onclick="eliminarProducto(${p.id})" class="btn btn-danger" style="padding: 6px 12px; font-size: 13px;">🗑️ Eliminar</button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            });
+    }
+}
+</script>
+{% endblock %}
+
