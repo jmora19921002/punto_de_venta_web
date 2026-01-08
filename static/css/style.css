@@ -627,6 +627,20 @@ table tr:hover {
     }
 }
 
+/* Punto de venta: stack at slightly larger breakpoint */
+@media (max-width: 900px) {
+    .punto-venta-container {
+        grid-template-columns: 1fr !important;
+        height: auto !important;
+        gap: 16px;
+    }
+
+    .productos-section, .carrito-section {
+        height: auto;
+        max-height: none;
+    }
+}
+
 /* Scrollbar personalizado */
 ::-webkit-scrollbar {
     width: 8px;
