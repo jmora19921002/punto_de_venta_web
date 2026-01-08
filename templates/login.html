@@ -10,8 +10,9 @@
     <div class="login-container">
         <div class="login-card">
             <div class="login-header">
-                <div class="login-logo">📋</div>
-                <h1>MI PUNTO DE VENTA</h1>
+                <div class="login-logo">
+                    <img src="{{ url_for('imagen_static', filename='logo-dimaventas.png') }}" alt="Logo" class="logo-img">
+                </div>
             </div>
 
             {% with messages = get_flashed_messages(with_categories=true) %}
@@ -24,10 +25,10 @@
 
             <form method="POST" action="{{ url_for('login') }}" class="login-form">
                 <div class="form-group">
-                    <input type="text" name="username" placeholder="👤 Usuario" required autofocus>
+                    <input type="text" name="username" placeholder="Usuario" required autofocus>
                 </div>
                 <div class="form-group">
-                    <input type="password" name="password" placeholder="🔒 Contraseña" required>
+                    <input type="password" name="password" placeholder="Contraseña" required>
                 </div>
                 <div class="form-options">
                     <label>

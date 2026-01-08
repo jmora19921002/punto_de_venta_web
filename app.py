@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify, flash, send_from_directory
 from functools import wraps
 from database import DatabaseManager
 import hashlib
@@ -78,6 +78,13 @@ def logout():
     session.clear()
     flash('Sesión cerrada correctamente', 'info')
     return redirect(url_for('login'))
+
+
+@app.route('/imagen/<path:filename>')
+def imagen_static(filename):
+    """Servir archivos desde la carpeta `imagen` en el proyecto."""
+    imagen_dir = os.path.join(app.root_path, 'imagen')
+    return send_from_directory(imagen_dir, filename)
 
 # ========== RUTAS PRINCIPALES ==========
 
