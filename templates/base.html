@@ -13,6 +13,7 @@
         <div class="nav-brand">
             <h2>📋 Punto de Venta</h2>
         </div>
+        <button class="nav-toggle" aria-label="Abrir menú">☰</button>
         <div class="nav-menu">
             <a href="{{ url_for('punto_venta') }}" class="nav-link">Ventas</a>
             {% if session.user_role != 'cajero' %}

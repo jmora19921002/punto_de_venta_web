@@ -270,6 +270,18 @@
         box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
     }
 </style>
+@media (max-width: 900px) {
+    .punto-venta-container {
+        grid-template-columns: 1fr;
+        height: auto;
+        gap: 16px;
+    }
+
+    .productos-section, .carrito-section {
+        height: auto;
+        max-height: none;
+    }
+}
 {% endblock %}
 
 {% block content %}

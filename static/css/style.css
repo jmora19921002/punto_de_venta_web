@@ -56,6 +56,10 @@ body {
     color: var(--text);
 }
 
+.nav-toggle {
+    display: none;
+}
+
 .nav-menu {
     display: flex;
     gap: 8px;
@@ -537,15 +541,58 @@ table tr:hover {
 /* Responsive */
 @media (max-width: 768px) {
     .navbar {
-        flex-direction: column;
+        flex-direction: row;
+        align-items: center;
         height: auto;
-        padding: 16px;
-        gap: 16px;
+        padding: 10px 16px;
+        gap: 8px;
+    }
+
+    .nav-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+        color: var(--text-light);
+        padding: 6px 10px;
+        border-radius: 6px;
     }
 
     .nav-menu {
-        flex-wrap: wrap;
-        justify-content: center;
+        display: none;
+        width: 100%;
+        margin-top: 8px;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .nav-menu.open {
+        display: flex;
+    }
+
+    .nav-user {
+        display: none;
+        width: 100%;
+        justify-content: space-between;
+        padding-top: 8px;
+    }
+
+    .nav-user.open {
+        display: flex;
+    }
+
+    .nav-link {
+        width: 100%;
+        text-align: center;
+        padding: 10px 12px;
+    }
+
+    .container {
+        padding: 12px;
+        max-width: 100%;
     }
 
     .form-row {
@@ -555,6 +602,28 @@ table tr:hover {
     .modal-content {
         margin: 10% auto;
         max-width: 95%;
+    }
+
+    /* Make tables horizontally scrollable */
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+    }
+
+    .carrito-items {
+        overflow-x: auto;
+    }
+
+    /* Punto de venta: stack columns */
+    .punto-venta-container {
+        grid-template-columns: 1fr !important;
+        height: auto !important;
+    }
+
+    /* Cards and form containers should be full width */
+    .card, .form-container, .login-card {
+        padding: 16px;
     }
 }
 

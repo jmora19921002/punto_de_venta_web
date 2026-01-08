@@ -63,4 +63,35 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
+// Menú móvil: alternar visibilidad de nav-menu y nav-user
+document.addEventListener('DOMContentLoaded', function() {
+    const navToggle = document.querySelector('.nav-toggle');
+    const navMenu = document.querySelector('.nav-menu');
+    const navUser = document.querySelector('.nav-user');
+
+    if (navToggle) {
+        navToggle.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (navMenu) navMenu.classList.toggle('open');
+            if (navUser) navUser.classList.toggle('open');
+        });
+
+        // Cerrar menú al tocar fuera
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.navbar')) {
+                if (navMenu) navMenu.classList.remove('open');
+                if (navUser) navUser.classList.remove('open');
+            }
+        });
+
+        // Asegurar estado cuando se redimensiona
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                if (navMenu) navMenu.classList.remove('open');
+                if (navUser) navUser.classList.remove('open');
+            }
+        });
+    }
+});
+
 
